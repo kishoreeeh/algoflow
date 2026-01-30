@@ -1,23 +1,9 @@
 {
   "name": "algoflow",
   "version": "1.0.0",
-  "description": "A beginner-first, visual DSA learning platform that teaches Data Structures & Algorithms through step-by-step visualizations, simple explanations, and real-life analogies.",
   "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kishoreeeh/algoflow.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kishoreeeh/algoflow/issues"
-  },
-  "homepage": "https://github.com/kishoreeeh/algoflow#readme"
+    "start": "node index.js"
+  }
 }
+
