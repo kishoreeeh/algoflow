@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5001/api';
+import API_URL from '../config/api';
 
 const DsaBackground = () => {
     return (

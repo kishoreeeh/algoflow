@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import useVisualization from '../hooks/useVisualization';
 import algorithmRegistry from '../data/algorithms';
+import API_URL from '../config/api';
 
 const DesktopVisualization = () => {
     const { algorithmId } = useParams();
@@ -94,7 +95,7 @@ const DesktopVisualization = () => {
             const token = localStorage.getItem('token');
             if (!token) return;
             try {
-                const response = await axios.get(`http://localhost:5001/api/progress`, {
+                const response = await axios.get(`${API_URL}/progress`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 if (response.data.success) {
@@ -112,7 +113,7 @@ const DesktopVisualization = () => {
         const token = localStorage.getItem('token');
         if (!token) return;
         try {
-            await axios.post('http://localhost:5001/api/progress/update', {
+            await axios.post(`${API_URL}/progress/update`, {
                 algorithmId, status, currentStep: stepIdx, totalSteps
             }, { headers: { Authorization: `Bearer ${token}` } });
         } catch (err) { console.error("Sync error:", err); }

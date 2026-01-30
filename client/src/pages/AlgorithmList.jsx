@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import algorithmRegistry, { getIcon } from '../data/algorithms';
 
-const API_URL = 'http://localhost:5001/api';
+import API_URL from '../config/api';
 
 const AlgorithmList = () => {
     const navigate = useNavigate();
