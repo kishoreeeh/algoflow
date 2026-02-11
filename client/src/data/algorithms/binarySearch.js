@@ -36,16 +36,20 @@ export const binarySearchAlgorithm = {
     }
     return -1;
 }`,
-        java: `int binarySearch(int[] arr, int target) {
-  int low = 0;
-  int high = arr.length - 1;
-  while (low <= high) {
-    int mid = low + (high - low) / 2;
-    if (arr[mid] == target) return mid;
-    if (arr[mid] < target) low = mid + 1;
-    else high = mid - 1;
-  }
-  return -1;
+        java: `public class Main {
+    public static void main(String[] args) {
+        int low = 0, high = arr.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] == target) {
+                System.out.println("Found at index: " + mid);
+                return;
+            }
+            if (arr[mid] < target) low = mid + 1;
+            else high = mid - 1;
+        }
+        System.out.println("Not found");
+    }
 }`,
         python: `def binary_search(arr, target):
     low = 0
@@ -78,7 +82,8 @@ export const generateBinarySearchSteps = (initialArray, target = 22) => {
             why: 'Binary search only works on sorted lists.',
             analogy: 'Like looking for a name in a phone book.'
         },
-        action: 'start'
+        action: 'start',
+        codeLineHighlight: 3
     });
 
     let low = 0;
@@ -167,7 +172,7 @@ export const generateBinarySearchSteps = (initialArray, target = 22) => {
                     visual: `Target must be in the right half.`
                 },
                 action: 'move-low',
-                codeLineHighlight: 8
+                codeLineHighlight: 10
             });
             low = mid + 1;
         } else {
@@ -189,7 +194,7 @@ export const generateBinarySearchSteps = (initialArray, target = 22) => {
                     visual: `Target must be in the left half.`
                 },
                 action: 'move-high',
-                codeLineHighlight: 10
+                codeLineHighlight: 11
             });
             high = mid - 1;
         }

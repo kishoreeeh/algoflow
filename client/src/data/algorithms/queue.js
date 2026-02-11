@@ -53,28 +53,37 @@ public:
         return q.empty();
     }
 };`,
-        java: `public class Queue {
-    private int[] q;
-    private int front, rear, size;
+        java: `class Queue {
+    int size = 10;
+    int[] arr = new int[size];
+    int front = 0;
+    int rear = -1;
 
-    public void enqueue(int item) {
-        q[rear++] = item;
-        size++;
+    void enqueue(int value) {
+        if (rear == size - 1) return;
+        arr[++rear] = value;
     }
-    public int dequeue() {
-        int item = q[front++];
-        size--;
-        return item;
+
+    int dequeue() {
+        if (front > rear) return -1;
+        return arr[front++];
+    }
+
+    int peek() {
+        if (front > rear) return -1;
+        return arr[front];
+    }
+
+    public static void main(String[] args) {
+        Queue q = new Queue();
+        q.enqueue(5);
+        q.dequeue();
     }
 }`,
         python: `from collections import deque
 q = deque()
-
-# Enqueue
-q.append(10)
-
-# Dequeue
-item = q.popleft()`
+q.append(10) # Enqueue
+item = q.popleft() # Dequeue`
     }
 };
 
@@ -96,7 +105,8 @@ export const generateQueueSteps = (inputArray) => {
             simple: 'Our current Queue. Items enter at the Rear and leave from the Front.',
             why: 'Order of arrival is strictly maintained.',
             visual: 'Red pointer is Front, Cyan pointer is Rear.'
-        }
+        },
+        codeLineHighlight: 1
     });
 
     // Enqueue
@@ -113,7 +123,8 @@ export const generateQueueSteps = (inputArray) => {
             simple: `Ready to Enqueue ${newValue} at the back.`,
             why: 'Enqueue operations always happen at the Rear index.',
             visual: 'We will witness the queue structure grow to the right.'
-        }
+        },
+        codeLineHighlight: 5
     });
 
     currentQueue.push(newValue);
@@ -130,7 +141,7 @@ export const generateQueueSteps = (inputArray) => {
             why: 'The Rear pointer always marks the entry point.',
             visual: 'The green box is our freshly enqueued element.'
         },
-        codeLineHighlight: 6
+        codeLineHighlight: 7
     });
 
     // Dequeue
@@ -164,7 +175,7 @@ export const generateQueueSteps = (inputArray) => {
             why: 'Removing from the front shifts the queue focus forward.',
             visual: 'Individual positions shift left as the front is cleared.'
         },
-        codeLineHighlight: 10
+        codeLineHighlight: 11
     });
 
     return steps;

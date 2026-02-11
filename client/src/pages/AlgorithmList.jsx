@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import algorithmRegistry, { getIcon } from '../data/algorithms';
 
-import API_URL from '../config/api';
+import { API_URL } from '../config/api';
 
 const AlgorithmList = () => {
     const navigate = useNavigate();

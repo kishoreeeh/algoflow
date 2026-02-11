@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Logout = () => {
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
+    const { user, logout } = useAuth();
 
     useEffect(() => {
-        // Capture user data before clearing
-        const userData = localStorage.getItem('user');
-        if (userData) {
-            setUser(JSON.parse(userData));
-        }
-
-        // Perform logout logic
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        // Perform logout
+        logout();
 
         // Auto-redirect after some time
         const timer = setTimeout(() => {
@@ -22,7 +16,7 @@ const Logout = () => {
         }, 5000);
 
         return () => clearTimeout(timer);
-    }, [navigate]);
+    }, [navigate, logout]);
 
     return (
         <div className="min-h-screen bg-[#020617] flex items-center justify-center p-4 relative overflow-hidden">

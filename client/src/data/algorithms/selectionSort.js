@@ -39,18 +39,23 @@ export const selectionSortAlgorithm = {
         }
     }
 }`,
-        java: `void selectionSort(int[] arr) {
-  for (int i = 0; i < arr.length; i++) {
-    int minIdx = i;
-    for (int j = i + 1; j < arr.length; j++) {
-      if (arr[j] < arr[minIdx]) {
-        minIdx = j;
-      }
+        java: `import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIdx])
+                    minIdx = j;
+            }
+            int temp = arr[minIdx];
+            arr[minIdx] = arr[i];
+            arr[i] = temp;
+        }
+        System.out.println(Arrays.toString(arr));
     }
-    int temp = arr[i];
-    arr[i] = arr[minIdx];
-    arr[minIdx] = temp;
-  }
 }`,
         python: `def selection_sort(arr):
     for i in range(len(arr)):
@@ -78,7 +83,8 @@ export const generateSelectionSortSteps = (initialArray) => {
             why: 'We need to sort these numbers from smallest to largest.',
             analogy: 'Like a shuffled deck of cards on the table.'
         },
-        action: 'start'
+        action: 'start',
+        codeLineHighlight: 5
     });
 
     for (let i = 0; i < n - 1; i++) {
@@ -98,7 +104,7 @@ export const generateSelectionSortSteps = (initialArray) => {
                 visual: 'The "Minimum" pointer starts at the same place as "Current".'
             },
             action: 'scan',
-            codeLineHighlight: 2
+            codeLineHighlight: 6
         });
 
         for (let j = i + 1; j < n; j++) {
@@ -121,7 +127,7 @@ export const generateSelectionSortSteps = (initialArray) => {
                     visual: 'We compare the number checked (Check) against the current smallest number found (Minimum).'
                 },
                 action: 'compare',
-                codeLineHighlight: 5
+                codeLineHighlight: 9
             });
 
             if (array[j] < array[minIdx]) {
@@ -145,7 +151,7 @@ export const generateSelectionSortSteps = (initialArray) => {
                         visual: 'The "Minimum" pointer moves to the new, smaller number.'
                     },
                     action: 'found-min',
-                    codeLineHighlight: 6
+                    codeLineHighlight: 10
                 });
             }
         }
@@ -169,7 +175,7 @@ export const generateSelectionSortSteps = (initialArray) => {
                     visual: 'We move the smallest number we found to the front of the unsorted section.'
                 },
                 action: 'swap',
-                codeLineHighlight: 11
+                codeLineHighlight: 12
             });
 
             // Perform swap
@@ -193,7 +199,7 @@ export const generateSelectionSortSteps = (initialArray) => {
                     visual: 'The element turns green, indicating it is sorted and locked in place.'
                 },
                 action: 'sorted',
-                codeLineHighlight: 12
+                codeLineHighlight: 14
             });
         } else {
             // Step: No Swap Needed
@@ -212,7 +218,7 @@ export const generateSelectionSortSteps = (initialArray) => {
                     visual: 'The element turns green instantly.'
                 },
                 action: 'sorted',
-                codeLineHighlight: 8
+                codeLineHighlight: 6
             });
         }
     }
@@ -228,7 +234,7 @@ export const generateSelectionSortSteps = (initialArray) => {
             analogy: 'The deck of cards is now completely ordered.'
         },
         action: 'complete',
-        codeLineHighlight: 15
+        codeLineHighlight: 16
     });
 
     return steps;

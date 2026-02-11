@@ -31,11 +31,20 @@ export const linearSearchAlgorithm = {
     }
     return -1;
 }`,
-        java: `int linearSearch(int[] arr, int target) {
-  for (int i = 0; i < arr.length; i++) {
-    if (arr[i] == target) return i;
-  }
-  return -1;
+        java: `public class Main {
+    public static void main(String[] args) {
+        int foundIdx = -1;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == target) {
+                foundIdx = i;
+                break;
+            }
+        }
+        if (foundIdx != -1)
+            System.out.println("Found at: " + foundIdx);
+        else
+            System.out.println("Not Found");
+    }
 }`,
         python: `def linear_search(arr, target):
     for i in range(len(arr)):
@@ -61,7 +70,8 @@ export const generateLinearSearchSteps = (initialArray, target = 22) => {
             why: 'Linear search can work on any array, sorted or unsorted.',
             analogy: 'Like checking names on a list one by one.'
         },
-        action: 'start'
+        action: 'start',
+        codeLineHighlight: 4
     });
 
     for (let i = 0; i < n; i++) {
@@ -79,7 +89,7 @@ export const generateLinearSearchSteps = (initialArray, target = 22) => {
                 visual: 'The current element is highlighted.'
             },
             action: 'compare',
-            codeLineHighlight: 2
+            codeLineHighlight: 5
         });
 
         if (array[i] === target) {
@@ -97,7 +107,7 @@ export const generateLinearSearchSteps = (initialArray, target = 22) => {
                     visual: 'The element turns green.'
                 },
                 action: 'complete',
-                codeLineHighlight: 3
+                codeLineHighlight: 6
             });
             return steps;
         }
@@ -115,7 +125,7 @@ export const generateLinearSearchSteps = (initialArray, target = 22) => {
             visual: 'We reached the end of the array.'
         },
         action: 'complete',
-        codeLineHighlight: 5
+        codeLineHighlight: 10
     });
 
     return steps;

@@ -37,16 +37,22 @@ export const insertionSortAlgorithm = {
         arr[j + 1] = key;
     }
 }`,
-        java: `void insertionSort(int[] arr) {
-  for (int i = 1; i < arr.length; i++) {
-    int key = arr[i];
-    int j = i - 1;
-    while (j >= 0 && arr[j] > key) {
-      arr[j + 1] = arr[j];
-      j = j - 1;
+        java: `import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        int n = arr.length;
+        for (int i = 1; i < n; i++) {
+            int key = arr[i];
+            int j = i - 1;
+            while (j >= 0 && arr[j] > key) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            arr[j + 1] = key;
+        }
+        System.out.println(Arrays.toString(arr));
     }
-    arr[j + 1] = key;
-  }
 }`,
         python: `def insertion_sort(arr):
     for i in range(1, len(arr)):
@@ -74,7 +80,8 @@ export const generateInsertionSortSteps = (initialArray) => {
             why: 'We will solve this by building a sorted section from left to right.',
             analogy: 'Imagine holding the first card in your hand.'
         },
-        action: 'start'
+        action: 'start',
+        codeLineHighlight: 5
     });
 
     // Mark first element as effectively sorted
@@ -88,7 +95,7 @@ export const generateInsertionSortSteps = (initialArray) => {
             visual: 'The first box turns green.'
         },
         action: 'mark-first',
-        codeLineHighlight: 2
+        codeLineHighlight: 6
     });
 
     for (let i = 1; i < n; i++) {
@@ -112,7 +119,7 @@ export const generateInsertionSortSteps = (initialArray) => {
                 visual: 'The "Key" element is highlighted.'
             },
             action: 'pick-key',
-            codeLineHighlight: 3
+            codeLineHighlight: 7
         });
 
         while (j >= 0 && array[j] > key) {
@@ -135,7 +142,7 @@ export const generateInsertionSortSteps = (initialArray) => {
                     visual: `${array[j]} will slide to the right.`
                 },
                 action: 'compare',
-                codeLineHighlight: 5
+                codeLineHighlight: 9
             });
 
             // Shift
@@ -156,7 +163,7 @@ export const generateInsertionSortSteps = (initialArray) => {
                     visual: 'The larger number moves right.'
                 },
                 action: 'shift',
-                codeLineHighlight: 6
+                codeLineHighlight: 10
             });
 
             j = j - 1;
@@ -180,7 +187,7 @@ export const generateInsertionSortSteps = (initialArray) => {
                 visual: `The key ${key} drops into place.`
             },
             action: 'insert',
-            codeLineHighlight: 9
+            codeLineHighlight: 13
         });
     }
 
@@ -195,7 +202,7 @@ export const generateInsertionSortSteps = (initialArray) => {
             visual: 'All elements are green.'
         },
         action: 'complete',
-        codeLineHighlight: 11
+        codeLineHighlight: 15
     });
 
     return steps;

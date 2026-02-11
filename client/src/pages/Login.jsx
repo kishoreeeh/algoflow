@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-import API_URL from '../config/api';
+import { useAuth } from '../context/AuthContext';
 
 const DsaBackground = () => {
     return (
@@ -37,6 +35,7 @@ const DsaBackground = () => {
 
 const Login = () => {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -57,19 +56,15 @@ const Login = () => {
         setLoading(true);
         setError('');
 
-        try {
-            const response = await axios.post(`${API_URL}/auth/login`, formData);
+        const result = await login(formData.email, formData.password);
 
-            if (response.data.success) {
-                localStorage.setItem('token', response.data.data.token);
-                localStorage.setItem('user', JSON.stringify(response.data.data.user));
-                navigate('/dashboard');
-            }
-        } catch (err) {
-            setError(err.response?.data?.message || 'Identity verification failed.');
-        } finally {
-            setLoading(false);
+        if (result.success) {
+            navigate('/dashboard');
+        } else {
+            setError(result.message || 'Identity verification failed.');
         }
+
+        setLoading(false);
     };
 
     return (

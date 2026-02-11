@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import useVisualization from '../hooks/useVisualization';
 import algorithmRegistry from '../data/algorithms';
-import API_URL from '../config/api';
+import { API_URL } from '../config/api';
 
 const DesktopVisualization = () => {
     const { algorithmId } = useParams();

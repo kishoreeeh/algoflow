@@ -1,118 +1,182 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
-import connectDB from './config/database.js';
-import { errorHandler, notFound } from './middleware/errorHandler.js';
+const express = require("express");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
-// Import routes
-import authRoutes from './routes/auth.js';
-import progressRoutes from './routes/progress.js';
-
-// Load environment variables
-dotenv.config();
-
-// Initialize Express app
 const app = express();
+const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || "algoflow_secret_key";
 
-// Connect to MongoDB
-connectDB();
-
-// ============================================
-// MIDDLEWARE
-// ============================================
-
-// Security headers
-app.use(helmet());
-
-// CORS configuration - Allow all origins
+// ---------- MIDDLEWARE ----------
 app.use(cors({
-    origin: '*', // Allow all origins
-    credentials: false, // Set to false when using wildcard origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
-
-// Body parser
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// Rate limiting
-const limiter = rateLimit({
-    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
-    max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100, // limit each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP, please try again later.',
-    standardHeaders: true,
-    legacyHeaders: false,
+// ---------- HEALTH CHECK ----------
+app.get("/", (req, res) => {
+    res.setHeader("Content-Type", "text/plain; charset=utf-8");
+    res.send("AlgoFlow backend is running 🚀");
 });
 
-app.use('/api/', limiter);
+// ---------- IN-MEMORY USER STORE (Replace with DB later) ----------
+const users = new Map();
 
-// ============================================
-// ROUTES
-// ============================================
+// ---------- AUTH ROUTES ----------
+app.post("/api/auth/register", (req, res) => {
+    const { name, email, password } = req.body;
 
-// Health check
-app.get('/health', (req, res) => {
-    res.status(200).json({
+    if (!name || !email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: "Name, email and password are required"
+        });
+    }
+
+    // Check if user already exists
+    if (users.has(email)) {
+        return res.status(400).json({
+            success: false,
+            message: "User already exists"
+        });
+    }
+
+    // Store user (in production, hash password with bcrypt)
+    users.set(email, { name, email, password });
+
+    // Generate token
+    const token = jwt.sign({ email, name }, JWT_SECRET, { expiresIn: "24h" });
+
+    res.status(201).json({
         success: true,
-        message: 'Server is running',
-        timestamp: new Date().toISOString()
-    });
-});
-
-// API routes
-app.use('/api/auth', authRoutes);
-app.use('/api/progress', progressRoutes);
-
-// Welcome route
-app.get('/', (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: 'Welcome to DSA Learning Platform API',
-        version: '1.0.0',
-        endpoints: {
-            health: '/health',
-            auth: '/api/auth',
-            algorithms: '/api/algorithms (coming soon)',
-            progress: '/api/progress (coming soon)'
+        message: "Registration successful",
+        data: {
+            token,
+            user: { name, email }
         }
     });
 });
 
-// ============================================
-// ERROR HANDLING
-// ============================================
+app.post("/api/auth/login", (req, res) => {
+    const { email, password } = req.body;
 
-// 404 handler
-app.use(notFound);
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: "Email and password are required"
+        });
+    }
 
-// Global error handler
-app.use(errorHandler);
+    // Check if user exists
+    const user = users.get(email);
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            message: "Invalid email or password"
+        });
+    }
 
-// ============================================
-// START SERVER
-// ============================================
+    // Verify password (in production, use bcrypt.compare)
+    if (user.password !== password) {
+        return res.status(401).json({
+            success: false,
+            message: "Invalid email or password"
+        });
+    }
 
-const PORT = process.env.PORT || 5000;
+    // Generate token
+    const token = jwt.sign({ email: user.email, name: user.name }, JWT_SECRET, { expiresIn: "24h" });
 
-const server = app.listen(PORT, () => {
-    console.log('');
-    console.log('🚀 ============================================');
-    console.log(`🚀 Server running in ${process.env.NODE_ENV} mode`);
-    console.log(`🚀 Server listening on port ${PORT}`);
-    console.log(`🚀 API URL: http://localhost:${PORT}`);
-    console.log(`🚀 Client URL: ${process.env.CLIENT_URL}`);
-    console.log('🚀 ============================================');
-    console.log('');
+    res.json({
+        success: true,
+        message: "Login successful",
+        data: {
+            token,
+            user: { name: user.name, email: user.email }
+        }
+    });
 });
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (err, promise) => {
-    console.error(`❌ Unhandled Rejection: ${err.message}`);
-    // Close server & exit process
-    server.close(() => process.exit(1));
+// ---------- IN-MEMORY PROGRESS STORE ----------
+const userProgress = new Map();
+
+// ---------- PROTECTED ROUTES ----------
+app.get("/api/progress", verifyToken, (req, res) => {
+    const progress = userProgress.get(req.user.email) || [];
+
+    res.json({
+        success: true,
+        data: progress
+    });
 });
 
-export default app;
+app.post("/api/progress/update", verifyToken, (req, res) => {
+    const { algorithmId, status, currentStep, totalSteps } = req.body;
+
+    if (!algorithmId || !status) {
+        return res.status(400).json({
+            success: false,
+            message: "algorithmId and status are required"
+        });
+    }
+
+    // Get user's progress
+    let progress = userProgress.get(req.user.email) || [];
+
+    // Find existing progress for this algorithm
+    const existingIndex = progress.findIndex(p => p.algorithmId === algorithmId);
+
+    const progressItem = {
+        algorithmId,
+        status,
+        currentStep: currentStep || 0,
+        totalSteps: totalSteps || 0,
+        updatedAt: new Date().toISOString()
+    };
+
+    if (existingIndex >= 0) {
+        progress[existingIndex] = progressItem;
+    } else {
+        progress.push(progressItem);
+    }
+
+    userProgress.set(req.user.email, progress);
+
+    res.json({
+        success: true,
+        message: "Progress updated",
+        data: progressItem
+    });
+});
+
+app.delete("/api/progress/:algorithmId", verifyToken, (req, res) => {
+    const { algorithmId } = req.params;
+
+    let progress = userProgress.get(req.user.email) || [];
+    progress = progress.filter(p => p.algorithmId !== algorithmId);
+    userProgress.set(req.user.email, progress);
+
+    res.json({
+        success: true,
+        message: "Progress deleted"
+    });
+});
+
+// ---------- TOKEN MIDDLEWARE ----------
+function verifyToken(req, res, next) {
+    const header = req.headers["authorization"];
+    if (!header) return res.status(401).json({ message: "No token provided" });
+
+    const token = header.split(" ")[1];
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+        if (err) return res.status(403).json({ message: "Invalid token" });
+        req.user = decoded;
+        next();
+    });
+}
+
+// ---------- START SERVER ----------
+app.listen(PORT, () => {
+    console.log("Server running on port", PORT);
+});

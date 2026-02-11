@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 /**
  * Navbar Component
@@ -9,18 +10,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
  */
 const Navbar = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        // Check if user is logged in
-        const userData = localStorage.getItem('user');
-        if (userData) {
-            setUser(JSON.parse(userData));
-        } else {
-            setUser(null);
-        }
-    }, [location]);
+    const { user, isAuthenticated } = useAuth();
 
     const handleLogout = () => {
         navigate('/logout');
@@ -45,11 +35,13 @@ const Navbar = () => {
                         <NavLink to="/">Home</NavLink>
                         <NavLink to="/algorithms">Algorithms</NavLink>
 
-                        {user ? (
+                        {isAuthenticated() ? (
                             <>
                                 <NavLink to="/dashboard">Dashboard</NavLink>
                                 <div className="flex items-center space-x-4">
-                                    <span className="text-gray-300 font-medium">hello</span>
+                                    <span className="text-gray-300 font-medium">
+                                        Hi, {user?.name || 'User'}
+                                    </span>
                                     <button
                                         onClick={handleLogout}
                                         className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all text-sm font-medium"

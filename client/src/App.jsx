@@ -1,5 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/common/Navbar';
 import Home from './pages/Home';
 import AlgorithmList from './pages/AlgorithmList';
@@ -12,31 +15,42 @@ import Logout from './pages/Logout';
 /**
  * Main App Component
  *
- * Sets up routing with authentication pages and dashboard.
+ * Sets up routing with authentication pages, dashboard, and theme support.
  */
 function App() {
   return (
     <Router>
-      <div className="min-h-screen">
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<><Navbar /><Home /><Footer /></>} />
-          <Route path="/algorithms" element={<><Navbar /><AlgorithmList /><Footer /></>} />
-          <Route path="/algorithm/:algorithmId" element={<AlgorithmDetail />} />
+      <ThemeProvider>
+        <AuthProvider>
+          <div className="min-h-screen">
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<><Navbar /><Home /><Footer /></>} />
+              <Route path="/algorithms" element={<><Navbar /><AlgorithmList /><Footer /></>} />
 
-          {/* Auth Routes (no navbar) */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/logout" element={<Logout />} />
+              {/* Auth Routes (no navbar) */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/logout" element={<Logout />} />
 
-          {/* Protected Routes */}
-          <Route path="/dashboard" element={<><Navbar /><Dashboard /><Footer /></>} />
+              {/* Protected Routes */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <><Navbar /><Dashboard /><Footer /></>
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/algorithm/:algorithmId" element={<AlgorithmDetail />} />
 
-          {/* Placeholder routes */}
-          <Route path="/practice" element={<><Navbar /><ComingSoon page="Practice" /><Footer /></>} />
-          <Route path="/about" element={<><Navbar /><ComingSoon page="About" /><Footer /></>} />
-        </Routes>
-      </div>
+              {/* Placeholder routes */}
+              <Route path="/practice" element={<><Navbar /><ComingSoon page="Practice" /><Footer /></>} />
+              <Route path="/about" element={<><Navbar /><ComingSoon page="About" /><Footer /></>} />
+            </Routes>
+          </div>
+        </AuthProvider>
+      </ThemeProvider>
     </Router>
   );
 }

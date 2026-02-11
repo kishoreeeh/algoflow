@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-import API_URL from '../config/api';
+import { useAuth } from '../context/AuthContext';
 
 const DsaBackground = () => {
     return (
@@ -86,6 +84,7 @@ const NeuralSidePanel = () => {
 
 const Signup = () => {
     const navigate = useNavigate();
+    const { register } = useAuth();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -119,23 +118,15 @@ const Signup = () => {
 
         setLoading(true);
 
-        try {
-            const response = await axios.post(`${API_URL}/auth/register`, {
-                name: formData.name,
-                email: formData.email,
-                password: formData.password
-            });
+        const result = await register(formData.name, formData.email, formData.password);
 
-            if (response.data.success) {
-                localStorage.setItem('token', response.data.data.token);
-                localStorage.setItem('user', JSON.stringify(response.data.data.user));
-                navigate('/dashboard');
-            }
-        } catch (err) {
-            setError(err.response?.data?.message || 'Registration failed.');
-        } finally {
-            setLoading(false);
+        if (result.success) {
+            navigate('/dashboard');
+        } else {
+            setError(result.message || 'Registration failed.');
         }
+
+        setLoading(false);
     };
 
     return (

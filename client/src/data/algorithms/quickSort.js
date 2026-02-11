@@ -53,11 +53,32 @@ void quickSort(vector<int>& arr, int low, int high) {
         quickSort(arr, pi + 1, high);
     }
 }`,
-        java: `void quickSort(int arr[], int low, int high) {
-    if (low < high) {
-        int pi = partition(arr, low, high);
-        quickSort(arr, low, pi-1);
-        quickSort(arr, pi+1, high);
+        java: `import java.util.Arrays;
+
+public class Main {
+    static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int pivot = arr[high];
+            int i = low - 1;
+            for (int j = low; j < high; j++) {
+                if (arr[j] <= pivot) {
+                    i++;
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+            int temp = arr[i + 1];
+            arr[i + 1] = arr[high];
+            arr[high] = temp;
+            int pi = i + 1;
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+    public static void main(String[] args) {
+        quickSort(arr, 0, arr.length - 1);
+        System.out.println(Arrays.toString(arr));
     }
 }`,
         python: `def quick_sort(arr, low, high):
@@ -96,7 +117,7 @@ export const generateQuickSortSteps = (inputArray) => {
                 why: 'The pivot is the reference point. Everything smaller goes left.',
                 visual: 'The green box is our chosen pivot for this partition.'
             },
-            codeLineHighlight: 11
+            codeLineHighlight: 6
         });
 
         for (let i = start; i < end; i++) {
@@ -119,7 +140,7 @@ export const generateQuickSortSteps = (inputArray) => {
                     why: 'Is this value smaller than the pivot?',
                     visual: 'Yellow box is being checked against the green pivot.'
                 },
-                codeLineHighlight: 14
+                codeLineHighlight: 9
             });
 
             if (items[i] < pivotValue) {
@@ -140,7 +161,7 @@ export const generateQuickSortSteps = (inputArray) => {
                         why: 'We group smaller items on the left so the pivot can sit in the middle later.',
                         visual: 'Swapping elements to satisfy partition rules.'
                     },
-                    codeLineHighlight: 16
+                    codeLineHighlight: 11
                 });
                 pivotIndex++;
             }
@@ -158,7 +179,7 @@ export const generateQuickSortSteps = (inputArray) => {
                 why: 'The pivot can never move again. Everything on its left is smaller, everything on its right is larger.',
                 visual: 'The pivot turns green - it is locked in place.'
             },
-            codeLineHighlight: 19
+            codeLineHighlight: 17
         });
 
         sort(items, start, pivotIndex - 1);
@@ -177,7 +198,8 @@ export const generateQuickSortSteps = (inputArray) => {
             simple: 'Quick Sort Complete! The array is fully ordered.',
             why: 'Recursive partitions have resolved all out-of-order pairs.',
             visual: 'All boxes are green - perfectly balanced and sorted.'
-        }
+        },
+        codeLineHighlight: 26
     });
 
     return steps;

@@ -1,10 +1,5 @@
-// API Configuration
-// This file centralizes all API endpoint configurations
+export const API_URL = import.meta.env.VITE_API_URL;
 
-// Get API URL from environment variable or fallback to localhost
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
-// API endpoints
 export const API_ENDPOINTS = {
     auth: {
         login: `${API_URL}/auth/login`,
@@ -13,18 +8,13 @@ export const API_ENDPOINTS = {
     },
     progress: {
         get: `${API_URL}/progress`,
-        update: `${API_URL}/progress/update`,
-        delete: (algoId) => `${API_URL}/progress/${algoId}`,
     },
 };
 
-// Helper function to get auth headers
 export const getAuthHeaders = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     return {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...(token && { Authorization: `Bearer ${token}` }),
     };
 };
-
-export default API_URL;

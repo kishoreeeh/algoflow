@@ -12,6 +12,7 @@ import { bstSearchAlgorithm, generateBSTSearchSteps } from './bstSearch';
 import { bfsAlgorithm, generateBFSSteps } from './bfs';
 import { dfsAlgorithm, generateDFSSteps } from './dfs';
 import { heapAlgorithm, generateHeapSteps } from './heap';
+import { mergeSortAlgorithm, generateMergeSortSteps } from './mergeSort';
 
 export const algorithmRegistry = {
     // Foundations
@@ -44,6 +45,10 @@ export const algorithmRegistry = {
     'quick-sort': {
         algorithm: quickSortAlgorithm,
         generateSteps: generateQuickSortSteps
+    },
+    'merge-sort': {
+        algorithm: mergeSortAlgorithm,
+        generateSteps: generateMergeSortSteps
     },
     // Data Structures
     'stack': {
@@ -92,7 +97,8 @@ export const getIcon = (id) => {
         'bst-search': '🌲',
         'bfs': '🌊',
         'dfs': '🧗',
-        'heap': '👑'
+        'heap': '👑',
+        'merge-sort': '🥞'
     };
     return icons[id] || '⚙️';
 };

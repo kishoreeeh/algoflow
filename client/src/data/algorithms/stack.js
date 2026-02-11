@@ -53,19 +53,30 @@ public:
         return s.empty();
     }
 };`,
-        java: `public class Stack {
-    private int maxSize;
-    private int[] stackArray;
-    private int top;
+        java: `class Stack {
+    int size = 10;
+    int[] arr = new int[size];
+    int top = -1;
 
-    public void push(int j) {
-        stackArray[++top] = j;
+    void push(int value) {
+        if (top == size - 1) return;
+        arr[++top] = value;
     }
-    public int pop() {
-        return stackArray[top--];
+
+    int pop() {
+        if (top == -1) return -1;
+        return arr[top--];
     }
-    public int peek() {
-        return stackArray[top];
+
+    int peek() {
+        if (top == -1) return -1;
+        return arr[top];
+    }
+
+    public static void main(String[] args) {
+        Stack s = new Stack();
+        s.push(10);
+        s.pop();
     }
 }`,
         python: `class Stack:
@@ -114,7 +125,7 @@ export const generateStackSteps = (inputArray) => {
             why: 'New items always go vertically above the current Top.',
             visual: 'We are about to expand the structure.'
         },
-        codeLineHighlight: 5
+        codeLineHighlight: 6
     });
 
     // Step: Pushed
@@ -129,7 +140,7 @@ export const generateStackSteps = (inputArray) => {
             why: 'Push adds the element and increments the top pointer.',
             visual: 'The green box shows the latest addition to the LIFO structure.'
         },
-        codeLineHighlight: 6
+        codeLineHighlight: 8
     });
 
     // Step: Preparing to Pop
@@ -143,7 +154,7 @@ export const generateStackSteps = (inputArray) => {
             why: 'In a Stack, we can only remove the item that is at the Top.',
             visual: 'The red highlight indicates which item is leaving.'
         },
-        codeLineHighlight: 8
+        codeLineHighlight: 11
     });
 
     // Step: Popped
@@ -158,7 +169,7 @@ export const generateStackSteps = (inputArray) => {
             why: 'Pop removes the last-added item and moves the pointer down.',
             visual: 'The stack has shrunk, following LIFO logic.'
         },
-        codeLineHighlight: 10
+        codeLineHighlight: 13
     });
 
     return steps;

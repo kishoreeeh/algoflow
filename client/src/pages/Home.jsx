@@ -1,346 +1,251 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import Card from '../components/common/Card';
-import Button from '../components/common/Button';
+import { useAuth } from '../context/AuthContext';
 
 /**
- * Home Page - Premium Visual Experience
+ * Home Page - Professional Enterprise Design
  * 
- * Landing page for the DSA learning platform with stunning visuals.
+ * Landing page with formal, corporate aesthetic
  */
 const Home = () => {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-    useEffect(() => {
-        const handleMouseMove = (e) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
+    const { isAuthenticated } = useAuth();
 
     return (
-        <div className="min-h-screen bg-[#0f172a] text-[#f8fafc] overflow-hidden">
-            {/* Hero Section with Advanced Visuals */}
-            <section className="relative overflow-hidden bg-[#0f172a] border-b border-[#334155] py-12 md:py-16 min-h-[75vh] flex items-center">
-                {/* Animated Gradient Orbs */}
-                <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-emerald-500/10 blur-[150px] rounded-full animate-pulse" style={{ animationDuration: '4s' }} />
-                <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 blur-[150px] rounded-full animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
-
-                {/* Floating Particles */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    {[...Array(20)].map((_, i) => (
-                        <div
-                            key={i}
-                            className="absolute w-1 h-1 bg-emerald-500/30 rounded-full animate-float"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                                animationDelay: `${Math.random() * 5}s`,
-                                animationDuration: `${10 + Math.random() * 10}s`
-                            }}
-                        />
-                    ))}
-                </div>
-
-                {/* Floating Code Snippets */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-5">
-                    <div className="absolute top-20 left-10 text-emerald-400 font-mono text-xs animate-float-slow">for (i = 0; i &lt; n; i++)</div>
-                    <div className="absolute top-40 right-20 text-cyan-400 font-mono text-xs animate-float-slow" style={{ animationDelay: '2s' }}>if (arr[i] &gt; arr[j])</div>
-                    <div className="absolute bottom-32 left-1/4 text-emerald-400 font-mono text-xs animate-float-slow" style={{ animationDelay: '4s' }}>swap(a, b)</div>
-                    <div className="absolute top-1/3 right-1/4 text-cyan-400 font-mono text-xs animate-float-slow" style={{ animationDelay: '1s' }}>O(n log n)</div>
-                </div>
-
-                {/* Grid Pattern */}
-                <div className="absolute inset-0 opacity-[0.02]" style={{
-                    backgroundImage: 'linear-gradient(#10b981 1px, transparent 1px), linear-gradient(90deg, #10b981 1px, transparent 1px)',
-                    backgroundSize: '50px 50px'
+        <div className="min-h-screen bg-gradient-to-br from-[#0a0e1a] via-[#1a1f2e] to-[#0a0e1a] text-[#e2e8f0]">
+            {/* Hero Section - Professional */}
+            <section className="relative overflow-hidden border-b border-[rgba(226,232,240,0.08)] py-20 md:py-32">
+                {/* Subtle Grid Background */}
+                <div className="absolute inset-0 opacity-[0.03]" style={{
+                    backgroundImage: 'linear-gradient(rgba(59,130,246,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.5) 1px, transparent 1px)',
+                    backgroundSize: '60px 60px'
                 }} />
 
+                {/* Professional Gradient Overlay */}
+                <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full" />
+                <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-500/5 blur-[100px] rounded-full" />
+
                 <div className="container-custom relative z-10">
-                    <div className="max-w-5xl mx-auto text-center">
-                        {/* Glowing Badge */}
-                        <div className="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-4 animate-fade-in">
-                            <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse" />
-                            <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Master DSA Visually</span>
+                    <div className="max-w-4xl mx-auto text-center">
+                        {/* Professional Badge */}
+                        <div className="inline-flex items-center px-4 py-2 rounded-md bg-blue-600/10 border border-blue-600/20 mb-6">
+                            <span className="text-xs font-semibold text-blue-400 uppercase tracking-widest">Enterprise DSA Platform</span>
                         </div>
 
-                        <h1 className="text-5xl md:text-6xl font-black mb-4 tracking-tight animate-fade-in">
-                            Learn DSA the{' '}
-                            <span className="relative inline-block">
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-emerald-400 animate-gradient">
-                                    Visual Way
-                                </span>
-                                <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 blur-xl -z-10" />
-                            </span>
+                        <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight text-[#f1f5f9]">
+                            Master Data Structures &{' '}
+                            <span className="text-blue-400">Algorithms</span>
                         </h1>
 
-                        <p className="text-lg md:text-xl mb-8 text-gray-300 max-w-3xl mx-auto leading-relaxed animate-slide-up font-medium">
-                            Master Data Structures & Algorithms through{' '}
-                            <span className="text-emerald-400 font-bold">step-by-step visualizations</span>,
-                            simple explanations, and real-life analogies.
+                        <p className="text-lg md:text-xl mb-10 text-[#cbd5e1] max-w-2xl mx-auto leading-relaxed font-normal">
+                            Professional learning platform with interactive visualizations,
+                            comprehensive analytics, and AI-powered assistance for technical excellence.
                         </p>
 
-                        {/* Animated Stats */}
-                        <div className="grid grid-cols-3 gap-4 max-w-xl mx-auto mb-8 animate-slide-up">
-                            <StatCard number="15+" label="Algorithms" delay="0s" />
-                            <StatCard number="100%" label="Visual" delay="0.1s" />
-                            <StatCard number="∞" label="Practice" delay="0.2s" />
+                        {/* Professional Stats */}
+                        <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto mb-10">
+                            <StatCard number="50+" label="Algorithms" />
+                            <StatCard number="10K+" label="Students" />
+                            <StatCard number="95%" label="Success Rate" />
                         </div>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 animate-slide-up">
-                            <Link to="/algorithms">
-                                <button className="group relative px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-black font-black text-base rounded-2xl overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(16,185,129,0.4)]">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    <span className="relative flex items-center">
-                                        Start Learning
-                                        <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                        </svg>
-                                    </span>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <Link to={isAuthenticated() ? "/dashboard" : "/signup"}>
+                                <button className="btn btn-primary btn-lg">
+                                    {isAuthenticated() ? 'Go to Dashboard' : 'Get Started'}
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                    </svg>
                                 </button>
                             </Link>
-                            <a href="#how-it-works">
-                                <button className="px-8 py-4 bg-white/5 backdrop-blur-sm border-2 border-white/10 text-white font-bold text-base rounded-2xl hover:bg-white/10 hover:border-emerald-500/50 transition-all">
-                                    How It Works
+                            <Link to="/algorithms">
+                                <button className="btn btn-outline btn-lg">
+                                    Explore Algorithms
                                 </button>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
-
-                {/* Scroll Indicator */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-                    <svg className="w-6 h-6 text-emerald-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
-                </div>
             </section>
 
-            {/* Features Section - Enhanced */}
+            {/* Features Section - Professional Grid */}
             <section className="section relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a] via-[#1e293b]/30 to-[#0f172a]" />
-
-                {/* Animated Geometric Shapes */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
-                    <div className="absolute top-20 left-10 w-32 h-32 border border-emerald-500/30 rounded-lg rotate-12 animate-spin-slow" />
-                    <div className="absolute bottom-40 right-20 w-24 h-24 border border-cyan-500/30 rounded-full animate-pulse" style={{ animationDuration: '3s' }} />
-                    <div className="absolute top-1/2 left-1/3 w-16 h-16 border border-emerald-500/30 animate-bounce" style={{ animationDuration: '4s' }} />
-                </div>
-
-                <div className="container-custom relative z-10">
-                    <div className="text-center mb-12">
-                        <h2 className="text-4xl font-black text-white mb-4 tracking-tight">
-                            Why Choose <span className="text-emerald-400">Algo Flow</span>?
+                <div className="container-custom">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-bold text-[#f1f5f9] mb-4">
+                            Platform Capabilities
                         </h2>
-                        <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                            Built for beginners who struggle with traditional DSA resources
+                        <p className="text-lg text-[#94a3b8] max-w-2xl mx-auto">
+                            Comprehensive learning tools designed for professional development
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <EnhancedFeatureCard
-                            icon="👁️"
-                            title="Visual First"
-                            description="See algorithms in action with beautiful, animated visualizations. Watch every step unfold before your eyes."
-                            gradient="from-emerald-500/10 to-emerald-600/10"
-                            borderColor="border-emerald-500/20"
+                    <div className="grid-professional">
+                        <FeatureCard
+                            icon={<VisualizationIcon />}
+                            title="Interactive Visualizations"
+                            description="Step-by-step algorithm execution with professional-grade visual representations and real-time state tracking."
                         />
-                        <EnhancedFeatureCard
-                            icon="💡"
-                            title="Simple Explanations"
-                            description="No jargon, no confusion. Every step is explained in plain English, like a friend teaching you."
-                            gradient="from-cyan-500/10 to-cyan-600/10"
-                            borderColor="border-cyan-500/20"
+                        <FeatureCard
+                            icon={<AnalyticsIcon />}
+                            title="Advanced Analytics"
+                            description="Comprehensive progress tracking, performance metrics, and personalized learning insights with data visualization."
                         />
-                        <EnhancedFeatureCard
-                            icon="⭐"
-                            title="Real-Life Analogies"
-                            description="Understand concepts through everyday examples. We make abstract ideas concrete and relatable."
-                            gradient="from-emerald-500/10 to-cyan-500/10"
-                            borderColor="border-emerald-500/20"
+                        <FeatureCard
+                            icon={<AIIcon />}
+                            title="AI-Powered Assistance"
+                            description="24/7 intelligent tutoring system with code explanation, error analysis, and personalized recommendations."
                         />
-                        <EnhancedFeatureCard
-                            icon="▶️"
-                            title="Control Your Pace"
-                            description="Play, pause, step forward, or go back. Learn at your own speed without feeling rushed."
-                            gradient="from-purple-500/10 to-purple-600/10"
-                            borderColor="border-purple-500/20"
+                        <FeatureCard
+                            icon={<CodeIcon />}
+                            title="Multi-Language Support"
+                            description="Implementation examples in JavaScript, Python, Java, and C++ with syntax highlighting and best practices."
                         />
-                        <EnhancedFeatureCard
-                            icon="💻"
-                            title="Code Walkthrough"
-                            description="See the actual code alongside the visualization. Watch which line executes at each step."
-                            gradient="from-blue-500/10 to-blue-600/10"
-                            borderColor="border-blue-500/20"
+                        <FeatureCard
+                            icon={<PracticeIcon />}
+                            title="Interactive Practice"
+                            description="Hands-on coding challenges, quizzes, and real-world problem-solving scenarios with instant feedback."
                         />
-                        <EnhancedFeatureCard
-                            icon="🎓"
-                            title="Build Confidence"
-                            description="Start with basics and gradually build your skills. Every algorithm is beginner-friendly."
-                            gradient="from-emerald-500/10 to-emerald-600/10"
-                            borderColor="border-emerald-500/20"
+                        <FeatureCard
+                            icon={<CertificateIcon />}
+                            title="Professional Certificates"
+                            description="Industry-recognized completion certificates with verification codes for resume and LinkedIn profiles."
                         />
                     </div>
                 </div>
             </section>
 
-            {/* How It Works Section - Enhanced */}
-            <section id="how-it-works" className="section bg-[#0f172a] relative overflow-hidden">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-500/5 blur-[200px] rounded-full" />
-
-                {/* Animated Connection Lines */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
-                    <svg className="absolute top-0 left-0 w-full h-full">
-                        <line x1="10%" y1="20%" x2="90%" y2="80%" stroke="#10b981" strokeWidth="1" strokeDasharray="5,5" className="animate-dash" />
-                        <line x1="90%" y1="20%" x2="10%" y2="80%" stroke="#06b6d4" strokeWidth="1" strokeDasharray="5,5" className="animate-dash" style={{ animationDelay: '1s' }} />
-                    </svg>
-                </div>
-
-                <div className="container-custom relative z-10">
-                    <div className="text-center mb-12">
-                        <h2 className="text-4xl font-black text-white mb-4">How It Works</h2>
-                        <p className="text-lg text-gray-400">Four simple steps to master any algorithm</p>
+            {/* Learning Path Section */}
+            <section className="section bg-[#1a1f2e]/30 border-y border-[rgba(226,232,240,0.08)]">
+                <div className="container-custom">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-bold text-[#f1f5f9] mb-4">
+                            Structured Learning Paths
+                        </h2>
+                        <p className="text-lg text-[#94a3b8]">
+                            Choose your track based on your career goals
+                        </p>
                     </div>
 
-                    <div className="max-w-4xl mx-auto space-y-6">
-                        <EnhancedStepCard
-                            number="1"
-                            title="Understand the Concept"
-                            description="Start with a real-life analogy and key idea. No code yet - just the core concept in simple terms."
-                            icon="🧠"
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        <PathCard
+                            title="Interview Preparation"
+                            description="Master the most frequently asked DSA questions from top tech companies"
+                            algorithms="25 Algorithms"
+                            duration="8 Weeks"
                         />
-                        <EnhancedStepCard
-                            number="2"
-                            title="Watch the Visualization"
-                            description="See the algorithm in action with animated visualizations. Control the pace - play, pause, or step through."
-                            icon="🎬"
+                        <PathCard
+                            title="Competitive Programming"
+                            description="Advanced algorithms and optimization techniques for coding competitions"
+                            algorithms="40 Algorithms"
+                            duration="12 Weeks"
                         />
-                        <EnhancedStepCard
-                            number="3"
-                            title="Read Step-by-Step Explanations"
-                            description="Each step comes with a clear explanation of what's happening and why. No confusion, just clarity."
-                            icon="📖"
+                        <PathCard
+                            title="Academic Excellence"
+                            description="Comprehensive curriculum aligned with computer science degree programs"
+                            algorithms="50 Algorithms"
+                            duration="16 Weeks"
                         />
-                        <EnhancedStepCard
-                            number="4"
-                            title="Study the Code"
-                            description="Finally, see the actual code with line-by-line highlighting that matches the visualization."
-                            icon="⚡"
+                        <PathCard
+                            title="Quick Revision"
+                            description="Rapid review of essential concepts for exam preparation"
+                            algorithms="15 Algorithms"
+                            duration="4 Weeks"
                         />
                     </div>
                 </div>
             </section>
 
-            {/* CTA Section - Enhanced */}
-            <section className="section relative overflow-hidden bg-gradient-to-br from-[#1e293b] via-[#0f172a] to-[#1e293b] border-y border-[#334155]">
-                <div className="absolute inset-0">
-                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_50%,rgba(16,185,129,0.1),transparent_50%)]" />
-                    <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_50%,rgba(6,182,212,0.1),transparent_50%)]" />
-                </div>
-
-                <div className="container-custom text-center relative z-10">
-                    <h2 className="text-4xl font-black mb-5 text-white">
-                        Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Start Learning</span>?
-                    </h2>
-                    <p className="text-lg mb-8 text-gray-300 max-w-2xl mx-auto">
-                        Join thousands of students who've overcome their fear of DSA and landed their dream jobs
-                    </p>
-                    <Link to="/algorithms">
-                        <button className="group relative px-10 py-5 bg-gradient-to-r from-emerald-500 to-emerald-600 text-black font-black text-lg rounded-2xl overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_50px_rgba(16,185,129,0.5)]">
-                            <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <span className="relative flex items-center">
-                                Explore Algorithms
-                                <svg className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            {/* CTA Section */}
+            <section className="section">
+                <div className="container-custom">
+                    <div className="card-elevated max-w-4xl mx-auto text-center p-12">
+                        <h2 className="text-3xl font-bold mb-4 text-[#f1f5f9]">
+                            Begin Your Professional Development Journey
+                        </h2>
+                        <p className="text-lg text-[#cbd5e1] mb-8 max-w-2xl mx-auto">
+                            Join thousands of professionals advancing their careers through structured DSA mastery
+                        </p>
+                        <Link to={isAuthenticated() ? "/dashboard" : "/signup"}>
+                            <button className="btn btn-primary btn-lg">
+                                {isAuthenticated() ? 'Access Dashboard' : 'Create Account'}
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                 </svg>
-                            </span>
-                        </button>
-                    </Link>
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </section>
-
-            <style jsx>{`
-                @keyframes float {
-                    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
-                    50% { transform: translateY(-100px) translateX(50px); opacity: 0.6; }
-                }
-                .animate-float {
-                    animation: float linear infinite;
-                }
-                @keyframes float-slow {
-                    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.5; }
-                    50% { transform: translateY(-50px) translateX(30px); opacity: 0.8; }
-                }
-                .animate-float-slow {
-                    animation: float-slow 15s ease-in-out infinite;
-                }
-                @keyframes gradient {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                }
-                .animate-gradient {
-                    background-size: 200% auto;
-                    animation: gradient 3s ease infinite;
-                }
-                @keyframes spin-slow {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(360deg); }
-                }
-                .animate-spin-slow {
-                    animation: spin-slow 20s linear infinite;
-                }
-                @keyframes dash {
-                    to { stroke-dashoffset: -100; }
-                }
-                .animate-dash {
-                    animation: dash 20s linear infinite;
-                }
-            `}</style>
         </div>
     );
 };
 
-/**
- * Stat Card Component
- */
-const StatCard = ({ number, label, delay }) => (
-    <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-all" style={{ animationDelay: delay }}>
-        <div className="text-3xl font-black text-emerald-400 mb-1">{number}</div>
-        <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">{label}</div>
+// Professional Stat Card
+const StatCard = ({ number, label }) => (
+    <div className="card text-center p-6">
+        <div className="text-3xl font-bold text-blue-400 mb-2">{number}</div>
+        <div className="text-sm font-medium text-[#94a3b8] uppercase tracking-wider">{label}</div>
     </div>
 );
 
-/**
- * Enhanced Feature Card Component
- */
-const EnhancedFeatureCard = ({ icon, title, description, gradient, borderColor }) => (
-    <div className={`group relative bg-gradient-to-br ${gradient} backdrop-blur-sm border ${borderColor} rounded-3xl p-6 hover:scale-105 transition-all duration-300 hover:shadow-[0_0_30px_rgba(16,185,129,0.2)]`}>
-        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl" />
-        <div className="relative">
-            <div className="text-4xl mb-3">{icon}</div>
-            <h3 className="text-xl font-black text-white mb-2">{title}</h3>
-            <p className="text-gray-300 text-sm leading-relaxed">{description}</p>
+// Professional Feature Card
+const FeatureCard = ({ icon, title, description }) => (
+    <div className="card-hover group">
+        <div className="mb-4 text-blue-400">
+            {icon}
+        </div>
+        <h3 className="text-xl font-semibold text-[#f1f5f9] mb-3">{title}</h3>
+        <p className="text-[#94a3b8] leading-relaxed">{description}</p>
+    </div>
+);
+
+// Professional Path Card
+const PathCard = ({ title, description, algorithms, duration }) => (
+    <div className="card-hover">
+        <h3 className="text-xl font-semibold text-[#f1f5f9] mb-3">{title}</h3>
+        <p className="text-[#94a3b8] mb-4 leading-relaxed">{description}</p>
+        <div className="flex items-center gap-4 text-sm">
+            <span className="badge badge-info">{algorithms}</span>
+            <span className="badge badge-neutral">{duration}</span>
         </div>
     </div>
 );
 
-/**
- * Enhanced Step Card Component
- */
-const EnhancedStepCard = ({ number, title, description, icon }) => (
-    <div className="group flex items-start space-x-5 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 hover:bg-white/10 hover:border-emerald-500/30 transition-all">
-        <div className="relative flex-shrink-0">
-            <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-2xl flex items-center justify-center text-2xl font-black shadow-lg group-hover:scale-110 transition-transform">
-                {number}
-            </div>
-            <div className="absolute -top-2 -right-2 text-2xl">{icon}</div>
-        </div>
-        <div className="flex-1 pt-1">
-            <h3 className="text-xl font-black text-white mb-2">{title}</h3>
-            <p className="text-gray-300 text-base leading-relaxed">{description}</p>
-        </div>
-    </div>
+// Professional Icons
+const VisualizationIcon = () => (
+    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>
+);
+
+const AnalyticsIcon = () => (
+    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>
+);
+
+const AIIcon = () => (
+    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+    </svg>
+);
+
+const CodeIcon = () => (
+    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+    </svg>
+);
+
+const PracticeIcon = () => (
+    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+    </svg>
+);
+
+const CertificateIcon = () => (
+    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+    </svg>
 );
 
 export default Home;
