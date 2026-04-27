@@ -69,7 +69,7 @@ const MonacoEditor = ({
                 },
                 options: {
                     isWholeLine: true,
-                    className: 'monaco-highlight-line',
+                    className: 'monaco-highlight-line bg-[#1e293b] !bg-green-900/40',
                     glyphMarginClassName: 'monaco-highlight-glyph',
                     linesDecorationsClassName: 'monaco-highlight-line-decoration',
                 },
@@ -92,7 +92,7 @@ const MonacoEditor = ({
     }, [onCodeChange, language]);
 
     return (
-        <div className="monaco-editor-container">
+        <div className="monaco-editor-container flex flex-col h-full">
             {/* Header */}
             <div className="monaco-editor-header">
                 <div className="flex items-center space-x-3">
@@ -128,7 +128,7 @@ const MonacoEditor = ({
             </div>
 
             {/* Monaco Editor */}
-            <div className="monaco-editor-body">
+            <div className="monaco-editor-body flex-1 min-h-0">
                 <Editor
                     height="100%"
                     language={LANG_MAP[language] || language}
@@ -160,12 +160,14 @@ const MonacoEditor = ({
                         quickSuggestions: false,
                         parameterHints: { enabled: false },
                         suggestOnTriggerCharacters: false,
+                        // Add custom class for highlighted line
+                        lineDecorationsClassName: 'monaco-highlight-line',
                     }}
                 />
             </div>
 
             {/* Status Bar */}
-            <div className="monaco-editor-statusbar">
+            <div className="monaco-editor-statusbar flex items-center justify-between px-4 py-1 border-t border-white/5 bg-black/40">
                 <div className="flex items-center space-x-4">
                     <span className="text-[10px] font-mono text-gray-500">
                         {LANG_LABELS[language] || language}
